@@ -114,7 +114,7 @@ export const RegisterForm = () => {
                     <TextField name="password_confirmation" label="Ingrese confirmacion de contraseña" type="password" />
                   </Grid>
                   <Grid item xs={12}>
-                  <Button variant="contained" fullWidth="true" >Registrarse</Button>
+                  <Button sx={{background:"#00897b"}}variant="contained" fullWidth="true" >Registrarse</Button>
                   </Grid>
                 </Grid>
               </Form>
