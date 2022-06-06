@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto","Segoe U", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -12,7 +12,11 @@ body,
 #root,
 .App {
   /* height: 100%; */
-  height: calc(100% - 65px);
-  background: #282828;
-  color: white;
+  height: calc(100%);
+  /* background-image: linear-gradient(to right bottom, #63e5c3, #00b4bc, #0082a7, #005081, #16224f); */
+  background-image: linear-gradient(270deg, #08AEEA 0%, #2AF598 100%);
+  /* background-color: #ECF0F1; */
+  
+  
+  
 }

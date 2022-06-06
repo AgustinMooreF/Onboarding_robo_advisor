@@ -4,22 +4,20 @@ import {
     Typography,
     CardActions,
     CardContent,
-    CardActionArea
+    CardActionArea,
+    Box
   } from "@mui/material";
-import { useState } from "react";
 import { useQuestionContext } from "../../../context/QuestionsContext";
-import { useDataContext } from "../../../context/UserDataContext";
-const responseValue = [];
-const responseName = [];
+import { useAnswerContext } from "../../../context/AnswerConext";
+
 export const SelectionType = ({
         title,
         answers,
         length,
         ...props
     }) => {
-    console.log(answers)
     const {currentQuestion, setCurrentQuestion, setUserProfiler} = useQuestionContext();
-    const {profileData, setData, answersData, setAnswersData,} = useDataContext();
+    const {answersData, setAnswersData,} = useAnswerContext();
 
     // styles for the asnwers buttons
     const buttonStyles = {
@@ -27,45 +25,54 @@ export const SelectionType = ({
       padding:"3%",
       fontSize: "1rem",
       textTransform: "none",
-      background: "#00897b ",
+      background: "#00C9A7",
+      color: "white",
+      fontWeight:"bold"
     };
 
     // answer click logic
     const handleSubmit = (e) => { 
       const nextQuestion = currentQuestion + 1;
-      if (nextQuestion < length) {
-        responseName.push(e.target.name);
-        responseValue.push(parseInt(e.target.value));
-        setCurrentQuestion(nextQuestion);
-      } else {
-        responseName.push(e.target.name);
-        responseValue.push(parseInt(e.target.value));
-        setAnswersData({respValue: responseValue, respName: responseName});
+      if (nextQuestion < length) {  
+        //if the questions is already answer we copy de state for to a new one with the new answer and set the new state to the context api
+        if(answersData[currentQuestion]){
+          let updatedState = answersData;
+          console.log(updatedState)
+          updatedState[currentQuestion] = {currentQuestion: e.target.name, response: e.target.value}
+          console.log(updatedState)
+          setAnswersData(updatedState)
+          setCurrentQuestion(nextQuestion);
+        }
+        else{
+          setAnswersData([...answersData, {currentQuestion: e.target.name, response: e.target.value} ])
+          setCurrentQuestion(nextQuestion);
+        }
+      } 
+      else {
+        // responseName.push(e.target.name);
+        // responseValue.push(parseInt(e.target.value));
+        setAnswersData([...answersData, {currentQuestion: e.target.name, response: e.target.value} ]);
         setUserProfiler(true);
       }
     }
     return (
-      <Card sx={{ maxWidth: 600, background:"#363636", borderRadius:3, boxShadow:"3", padding:"2%"}}>
-        <CardActionArea>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div" sx={{color:"white"}}>
+      <Box sx={{  borderRadius:3 }}>
+            <Typography gutterBottom variant="h4" component="div" sx={{color:"white", fontWeight:"bold"}}>
               {title}
             </Typography>
-            {answers.map((answer) => (
+            {answers.map((answer, index) => (
               <Button
-                onClick={handleSubmit}
-                sx={buttonStyles}
-                variant="contained"
-                fullWidth={true}
-                value={answer.profileScore}
-                name={answer.textoRespuesta}
+              key={index}
+              value={answer.profileScore}
+              name={answer.textoRespuesta}
+              onClick={handleSubmit}
+              sx={buttonStyles}
+              fullWidth={true}
+              variant="contained"
               >
                 {answer.textoRespuesta}
               </Button>
-            ))}
-          </CardContent>
-        </CardActionArea>
-        <CardActions></CardActions>
-      </Card>
+            ))} 
+      </Box>
     );
 }

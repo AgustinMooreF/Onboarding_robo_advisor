@@ -1,75 +1,145 @@
 import { SelectionType } from "../components/questions/components/SelectionType";
-import { Button, Grid, Box, Container, Typography } from "@mui/material";
+import { Button, Grid, Box } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { useEffect } from "react";
 import { useQuestionContext } from "../context/QuestionsContext";
-import { useDataContext } from "../context/UserDataContext";
-import { RegisterForm } from "./RegisterForm";
+import { useAnswerContext } from "../context/AnswerConext";
 import preguntas from "../questionJson";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userActions } from "../store/slices/UserSlice";
+import logo from "../assets/logos/blanco-verde_Mesa de trabajo 1.png";
+import { useEffect, useState } from "react";
 
 export const QuestionMainComponent = () => {
-  const {currentQuestion, userProfiler} = useQuestionContext();
-  const {profileData, setData, answersData, setAnswersData,} = useDataContext();
   let navigate = useNavigate();
-  //because array start at 0 so currentquestion is one less
+  const dispatch = useDispatch();
+  const { currentQuestion, setCurrentQuestion, userProfiler } =
+    useQuestionContext();
+  const { answersData } = useAnswerContext();
+  const [profileUser, setProfileUser] = useState(false);
+  //because array start at 0 and questions.length count the total, so its 1 more
   const questionsLength = preguntas.length - 1;
-// useEffect(() => {
-
-// },[])
-const userProfileScore = () => {
-  let userScore = 0;
-  console.log("current question len ", questionsLength ,"cuurent question ",currentQuestion)
-  if(answersData.respValue){
-    if(questionsLength === currentQuestion){
-      answersData.respValue.forEach(value => {
-        userScore += value;
-        console.log(value, userScore)
-      });
-      return userScore;
+  const userProfileScore = () => {
+    let userScore = 0;
+    if (answersData.length > 0) {
+      if (questionsLength === currentQuestion) {
+        answersData.forEach((answer) => {
+          userScore += parseInt(answer.response);
+          console.log(answer.response, userScore);
+        });
+        return userScore;
+      }
+    } else {
+      throw new Error("Values from responses missing in userDataProvider");
     }
-  }
-  else{
-    throw new Error("Values from responses missing in userDataProvider");
-  }
-}
+  };
 
-const setUserProfile = () => {
-  const userScore = userProfileScore();
-  console.log(userScore)
-  if(userScore > 4 && userScore <= 6){
-    setData((profileData)=>({...profileData, score: userScore, risk_profile:"conservador"}));
-  }
-  else if(userScore > 6 && userScore <= 11){
-    setData((profileData)=>({...profileData, score: userScore, risk_profile:"moderado"}));
-  }
-  else if(userScore > 11){
-    setData((profileData)=>({...profileData, score: userScore, risk_profile:"arriesgado"}));
-    // setData({...profileData, score: userScore, risk_profile:"arriesgado"});
-  }
-}
+  const setUserProfile = () => {
+    const userScore = userProfileScore();
+    console.log(userScore);
+    if (userScore > 4 && userScore <= 6) {
+      dispatch(
+        userActions.replaceProfileData({
+          score: userScore,
+          risk_profile: "Conservador",
+        })
+      );
+    } else if (userScore > 6 && userScore <= 11) {
+      dispatch(
+        userActions.replaceProfileData({
+          score: userScore,
+          risk_profile: "Moderado",
+        })
+      );
+    } else if (userScore > 11) {
+      dispatch(
+        userActions.replaceProfileData({
+          score: userScore,
+          risk_profile: "Arriesgado",
+        })
+      );
+    }
+  };
 
-if(userProfiler){
-  setUserProfile();
-  navigate("/register")
-}
+  
+  useEffect(() => {
+    if (userProfiler) {
+      setProfileUser(true)
+      dispatch(userActions.nextStep());
+      setUserProfile();
+      navigate("/goalInfo");
+    }
+  }, [userProfiler])
+  
 
-
-const questions = preguntas;
+  const questions = preguntas;
   return (
     <Grid container>
-      <Box mx={"auto"} mt={12}>
-        <Grid item xs={12}>
-          <Container maxWidth="md">
-              {
-                <SelectionType answers={questions[currentQuestion].respuestas} title={questions[currentQuestion].titulo} length={preguntas.length}/>
-              }
+      <Box
+        mx={"auto"}
+        mt={4}
+        sx={{
+          borderRadius: 3,
+          background: "red",
+          height: "100%",
+          background: "#12192c",
+          width: "30vw",
+          paddingX: "5%",
+          paddingBottom: "2%",
+        }}
+      >
 
-            <Box mt={6}>
-                  <Button sx={{background:"#969696", pt:"2%", pb:"2%", pr:"5%", pl:"5%"}} variant="contained" startIcon={<ArrowBackIosNewIcon/> } > Anterior</Button>
-            </Box>
-          </Container>
+        <Grid container  mx={"auto"}>
+          <Box mx={"auto"} sx={{width:150}}>
+          <Box
+            component="img"
+            mx={"auto"}
+            sx={{
+              mx:"auto",
+              height: 150,
+              width: 150,
+              maxHeight: { xs: 150, md: 150 },
+              maxWidth: { xs: 250, md: 250 },
+            }}
+            alt="Griin inversiones sustentables"
+            src={logo}
+          />
+          </Box>
         </Grid>
+        <Grid
+          item
+          mx={"auto"}
+          my={"auto"}
+        >
+          {/* <img  src={logo} alt="logo" style={{Width: 80, height: 80, margin:"auto"}}/> */}
+
+          {
+            <SelectionType
+              length={preguntas.length}
+              title={questions[currentQuestion].titulo}
+              answers={questions[currentQuestion].respuestas}
+            />
+          }
+        </Grid>
+          <Button
+            disabled={currentQuestion == 0}
+            onClick={() => {
+              setCurrentQuestion((currentQuestion) => currentQuestion - 1);
+            }}
+            sx={{
+              background: "#00C9A7",
+              pt: "2%",
+              pb: "2%",
+              pr: "5%",
+              pl: "5%",
+              mt: "15%"
+            }}
+            variant="contained"
+            startIcon={<ArrowBackIosNewIcon />}
+          >
+            {" "}
+            Anterior
+          </Button>
       </Box>
     </Grid>
   );
