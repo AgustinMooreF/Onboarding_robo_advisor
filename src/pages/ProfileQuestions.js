@@ -10,12 +10,13 @@ import { userActions } from "../store/slices/UserSlice";
 import logo from "../assets/logos/blanco-verde_Mesa de trabajo 1.png";
 import { useEffect, useState } from "react";
 
-export const QuestionMainComponent = () => {
+export const ProfileQuestions = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentQuestion, setCurrentQuestion, userProfiler } =
     useQuestionContext();
   const { answersData } = useAnswerContext();
+  // eslint-disable-next-line no-unused-vars
   const [profileUser, setProfileUser] = useState(false);
   //because array start at 0 and questions.length count the total, so its 1 more
   const questionsLength = preguntas.length - 1;
@@ -67,7 +68,7 @@ export const QuestionMainComponent = () => {
       setProfileUser(true)
       dispatch(userActions.nextStep());
       setUserProfile();
-      navigate("/goalInfo");
+      navigate("/personal_Values");
     }
   }, [userProfiler])
   
@@ -80,7 +81,6 @@ export const QuestionMainComponent = () => {
         mt={4}
         sx={{
           borderRadius: 3,
-          background: "red",
           height: "100%",
           background: "#12192c",
           width: "30vw",
@@ -122,7 +122,7 @@ export const QuestionMainComponent = () => {
           }
         </Grid>
           <Button
-            disabled={currentQuestion == 0}
+            disabled={currentQuestion === 0}
             onClick={() => {
               setCurrentQuestion((currentQuestion) => currentQuestion - 1);
             }}

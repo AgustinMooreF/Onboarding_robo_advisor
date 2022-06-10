@@ -1,4 +1,4 @@
-import { Grid, Box, Button } from "@mui/material";
+import { Typography, Grid, Box, Button } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CompositionDonutChart } from "../components/recomendation/components/CompositionDonutChart";
@@ -8,8 +8,8 @@ import { fetchRecomendedPortfolio } from "../store/actions/RecomendationActions"
 import { BenchmarkView } from "../components/recomendation/components/BenchmarkView";
 import { SimulationView } from "../components/recomendation/components/SimulationView";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import {PortfolioActions} from "../store/slices/RecomendationSlice";
-import {userActions} from "../store/slices/UserSlice";
+import { PortfolioActions } from "../store/slices/RecomendationSlice";
+import { userActions } from "../store/slices/UserSlice";
 export const RecomendationView = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
@@ -22,19 +22,18 @@ export const RecomendationView = () => {
     dispatch(userActions.nextStep());
     dispatch(PortfolioActions.replaceRecomendedPortfolios(recomendedPortfolio));
     navigate("/register");
-  }
+  };
   return (
     <Box
       mx={"auto"}
       mt={2}
       sx={{
         borderRadius: 3,
-        background: "red",
         background: "#12192c",
         width: "80vw",
         pb: "2%",
-        pl:"1.5%",
-        pr:"1.5%"
+        pl: "1.5%",
+        pr: "1.5%",
       }}
     >
       <Grid container>
@@ -43,6 +42,7 @@ export const RecomendationView = () => {
             sx={{
               display: "flex",
               justifyContent: "center",
+              width:"60%",
               p: 1,
               mx: "auto",
               borderRadius: 1,
@@ -57,7 +57,6 @@ export const RecomendationView = () => {
               display: "flex",
               justifyContent: "center",
               p: 1,
-
               borderRadius: 1,
             }}
           >
@@ -66,16 +65,31 @@ export const RecomendationView = () => {
         </Grid>
 
         <Grid item lg={6} md={6} sm={4} xs={4} sx={{ mx: "auto" }}>
+        <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              mb:"3%",
+              mx: "auto",
+            }}
+          >
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                sx={{ color: "white", fontWeight: "bold" }}
+              >
+                Donde estoy inviertiendo mi dinero?
+              </Typography>
+              </Box>
           <Box
             sx={{
               display: "flex",
               justifyContent: "center",
               p: 1,
-
               borderRadius: 1,
-
-              height: "15vw",
               mx: "auto",
+              height: "15vw",
             }}
           >
             <CompositionDonutChart></CompositionDonutChart>

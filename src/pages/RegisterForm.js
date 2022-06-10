@@ -5,54 +5,49 @@ import { Button, Grid, Box, Container, Typography } from "@mui/material";
 import TextField from "../components/register/components/TextField";
 import logo from "../assets/logos/blanco-verde_Mesa de trabajo 1.png";
 import { Formik, Form } from "formik";
-
+import  {register}  from "../services/auth.service";
 export const RegisterForm = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const INITIAL_FORM_STATE = {
-    first_name: "",
-    last_name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
-    password_confirmation: "",
+    passwordConfirm: "",
   };
 
   // FORM FIELDS VALIDATIONS
   const FORM_VALIDATION = Yup.object().shape({
-    first_name: Yup.string().required("el nombre es requerido"),
-    last_name: Yup.string().required("el apellido es requerido"),
+    firstName: Yup.string().required("el nombre es requerido"),
+    lastName: Yup.string().required("el apellido es requerido"),
     email: Yup.string()
       .email("el email es invalido.")
       .required("el email es requerido"),
-    // password: Yup
-    // .string()
-    // .required('La contraseña es requerida')
-    // .matches(
-    //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-    //   "Debe contener al menos 8 caracteres, Una mayuscula, Una minuscula, Un numero y  Un caracter especial"
-    // ),
-    // password_confirmation: Yup.string().label('password_confirmation').required("La confirmacion de contraseña es requerida").oneOf([Yup.ref('password')], 'Las contraseñas no coninciden'),
+    password: Yup
+    .string()
+    .required('La contraseña es requerida')
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      "Debe contener al menos 8 caracteres, Una mayuscula, Una minuscula, Un numero y  Un caracter especial"
+    ),
+    passwordConfirm: Yup.string().label('password_confirmation').required("La confirmacion de contraseña es requerida").oneOf([Yup.ref('password')], 'Las contraseñas no coninciden'),
   });
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   setLoading(true);
-
-  //   try {
-  //     const response = await fetch("http://localhost:4000/users", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(user),
-  //     });
-  //     await response.json();
-
-  //     setLoading(false);
-  //     navigate("/register");
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const handleSubmit = async (event) => {
+    
+    setLoading(true);
+    console.log(event.firstName, event.lastName)
+    try {
+      const resp = await register(event.firstName, event.lastName, event.email, event.password, event.passwordConfirm);
+      console.log(resp.data.uuid)
+      // const resp = await register();
+      navigate("/redirect");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Grid container>
@@ -61,7 +56,6 @@ export const RegisterForm = () => {
         mt={4}
         sx={{
           borderRadius: 3,
-          background: "red",
           height: "100%",
           background: "#12192c",
           width: "30vw",
@@ -97,9 +91,7 @@ export const RegisterForm = () => {
                 ...INITIAL_FORM_STATE,
               }}
               validationSchema={FORM_VALIDATION}
-              onSubmit={(values) => {
-                console.log(values);
-              }}
+              onSubmit={values => {handleSubmit(values)}}
             >
               <Form>
                 <Grid container spacing={2}>
@@ -111,7 +103,7 @@ export const RegisterForm = () => {
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
-                      name="first_name"
+                      name="firstName"
                       inputProps={{
                         style: { background: "#393f55", color: "white" },
                       }}
@@ -119,7 +111,7 @@ export const RegisterForm = () => {
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
-                      name="last_name"
+                      name="lastName"
                       inputProps={{
                         style: { background: "#393f55", color: "white" },
                       }}
@@ -148,7 +140,7 @@ export const RegisterForm = () => {
                   <Grid item xs={12}>
                     <Typography>Confirmar contraseña</Typography>
                     <TextField
-                      name="password_confirmation"
+                      name="passwordConfirm"
                       type="password"
                       inputProps={{
                         style: { background: "#393f55", color: "white" },

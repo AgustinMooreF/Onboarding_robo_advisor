@@ -4,7 +4,7 @@ import { GoalForm } from "./pages/GoalForm";
 import { Box } from "@mui/material";
 import {RecomendationView} from "./pages/RecomendationView"
 import {BrowserRouter, Route, Routes } from "react-router-dom";
-import { QuestionMainComponent } from "./pages/QuestionsMainComponent";
+import { ProfileQuestions } from "./pages/ProfileQuestions";
 import {AnswerContext} from "./context/AnswerConext"
 import { useEffect } from "react";
 import { fetchAllPortfolios } from "./store/actions/RecomendationActions";
@@ -26,8 +26,8 @@ function App() {
     <QuestionsContext>
       <AnswerContext>
               <Routes>
-                <Route index path="/" element={<QuestionMainComponent />} />
-                <Route path="/question" element={<QuestionMainComponent />}/>
+                <Route index path="/" element={<ProfileQuestions />} />
+                <Route path="/question" element={<ProfileQuestions />}/>
                 <Route path="/goalInfo" element={<GoalForm />}/>
                 <Route path="/recomendation" element={<RecomendationView />}/>
                 <Route path="/register" element={<RegisterForm />}/>

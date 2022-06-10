@@ -24,7 +24,7 @@ export const PortfolioDescription = ({
 
     // }
     return (
-      <Box sx={{ maxWidth:"100%",  borderRadius:3, padding:"5%", height:"100%", color: "white" }}>
+      <Box sx={{ maxWidth:"100%",  borderRadius:3, padding:"5%", height:"100%", color: "white", my:"auto" }}>
      
        
             <Typography gutterBottom variant="h4" component="div" sx={{color:"white", fontWeight:"bold"}}>

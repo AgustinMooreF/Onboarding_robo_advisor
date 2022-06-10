@@ -1,10 +1,6 @@
 import {
     Button,
-    Card,
     Typography,
-    CardActions,
-    CardContent,
-    CardActionArea,
     Box
   } from "@mui/material";
 import { useQuestionContext } from "../../../context/QuestionsContext";

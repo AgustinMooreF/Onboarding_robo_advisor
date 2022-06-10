@@ -10,7 +10,9 @@ export const useQuestionContext = () => {
 export const QuestionsContext = ({ children }) => {
 
     const [questions, setQuestions] = useState([]);
+    const [ValuesQuestions, setValuesQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState(0)
+    const [currentValuesQuestion, setCurrentValuesQuestion] = useState(0)
     const [userProfiler, setUserProfiler] = useState(false)
     // const getQuestions = () => {
     //     const resp = preguntas;
@@ -19,14 +21,16 @@ export const QuestionsContext = ({ children }) => {
     // }
     return (
             <questionContext.Provider value = {{
-
                 questions,
                 // getQuestions,
                 setQuestions,
                 currentQuestion,
                 setCurrentQuestion,
                 userProfiler,
-                setUserProfiler
+                setUserProfiler,
+                currentValuesQuestion,
+                setCurrentValuesQuestion,
+                ValuesQuestions, setCurrentValuesQuestion
             }}>
                 {children}
             </questionContext.Provider>

@@ -33,12 +33,10 @@ export const SimulationView = ({}) => {
   return (
     <Box
       sx={{
-        borderRadius: 3,
-        boxShadow: "3",
         height: "100%",
       }}
     >
-      <Box sx={{ width: "100%", maxWidth: 360, color:"white", bgcolor:"#393f55", p:"2%", borderRadius:2}}>
+      <Box sx={{ width: "100%", maxWidth: 360, color:"white", borderRadius:2}}>
         <Typography gutterBottom variant="h6" component="div" sx={{ my: 1, mx: 2 }}>
           {portfolioName}
         </Typography>

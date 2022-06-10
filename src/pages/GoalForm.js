@@ -43,7 +43,6 @@ export const GoalForm = () => {
           xs={12}
           sx={{
             borderRadius: 3,
-            background: "red",
             height: "100%",
             background: "#12192c",
             width: "30vw",

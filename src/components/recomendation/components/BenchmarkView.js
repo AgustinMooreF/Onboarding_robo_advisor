@@ -48,6 +48,7 @@ export const BenchmarkView = ({}) => {
         width: "60%",
         borderRadius: 3,
         padding: "3%",
+        display: "flex",
   
       }}
     >

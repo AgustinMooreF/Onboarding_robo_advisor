@@ -1,12 +1,15 @@
 import { Button, Typography, Box, Grid } from "@mui/material";
-import { useQuestionContext } from "../context/QuestionsContext";
-import { useAnswerContext } from "../context/AnswerConext";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import logo from "../assets/logos/blanco-verde_Mesa de trabajo 1.png";
-export const ValuesQuestions = ({}) => {
-  const { currentQuestion, setCurrentQuestion, setUserProfiler } =
-    useQuestionContext();
-  const { answersData, setAnswersData } = useAnswerContext();
+import {  useState } from "react";
+import { PersonalValuesButton } from "../components/questions/components/PersonalValuesButton";
+import { useDispatch } from "react-redux";
+import { userActions } from "../store/slices/UserSlice";
+import { useNavigate } from "react-router-dom";
+export const ValuesQuestions = () => {
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [personalValues, setPersonalValues] = useState([]);
   const answers = [
     { textoRespuesta: "Energias renovables", value: "CC" },
     { textoRespuesta: "Igualdad de genero", value: "SC" },
@@ -15,36 +18,25 @@ export const ValuesQuestions = ({}) => {
     { textoRespuesta: "Reciclaje", value: "CC" },
   ];
   const title = "cuales son tus valores personales?";
-  // styles for the asnwers buttons
-  const buttonStyles = {
-    mt: "1%",
-    mb: "1%",
-    mr: "2%",
-    ml: "2%",
-    padding: "3%",
-    fontSize: "1rem",
-    textTransform: "none",
-    background: "#00C9A7",
-    color: "white",
-    fontWeight: "bold",
-    borderRadius: 8,
-  };
+
+  // useEffect(() => {
+  //   console.log(personalValues)
+  // }, [personalValues])
+  
 
   // answer click logic
   const handleSubmit = (e) => {
-
-  };
-  const onClick = (e) => {
-    
+    console.log(typeof(personalValues))
+    dispatch(userActions.userValues({values: personalValues}));
+    navigate("/goalInfo");
   };
   return (
     <Grid container>
       <Box
         mx={"auto"}
-        mt={4}
+        mt={6}
         sx={{
           borderRadius: 3,
-          background: "red",
           height: "100%",
           background: "#12192c",
           width: "30vw",
@@ -58,7 +50,6 @@ export const ValuesQuestions = ({}) => {
               component="img"
               mx={"auto"}
               sx={{
-                mx: "auto",
                 height: 150,
                 width: 150,
                 maxHeight: { xs: 150, md: 150 },
@@ -75,29 +66,26 @@ export const ValuesQuestions = ({}) => {
               gutterBottom
               variant="h4"
               component="div"
-              sx={{ color: "white", fontWeight: "bold", mb:"10%" }}
+              sx={{ color: "white", fontWeight: "bold", mb:"8%" }}
             >
               {title}
             </Typography>
+            {/* map de preguntas */}
             {answers.map((answer, index) => (
-              <Button
-                key={index}
-                value={answer.profileScore}
-                name={answer.textoRespuesta}
-                onClick={onClick}
-                sx={buttonStyles}
-                variant="contained"
+              <PersonalValuesButton
+              key={index}
+                answer={answer}
+                setPersonalValues={setPersonalValues}
+                personalValues={personalValues}
               >
                 {answer.textoRespuesta}
-              </Button>
+              </PersonalValuesButton>
             ))}
           </Box>
         </Grid>
         <Grid
           container
-          sx={{
-            mt: "3%",
-          }}
+         mt={"4%"}
         >
           <Grid item lg={6} md={6} xs={6} mt={5}>
             <Box display="flex" justifyContent="flex-start">
@@ -105,10 +93,10 @@ export const ValuesQuestions = ({}) => {
                 sx={{
                   background: "#FFFFFF",
                   color: "#12192c",
-                  pt: "3%",
-                  pb: "3%",
-                  pr: "6%",
-                  pl: "6%",
+                  pt: "5%",
+                  pb: "5%",
+                  pr: "10%",
+                  pl: "10%",
                 }}
                 variant="contained"
                 startIcon={<ArrowBackIosNewIcon />}
@@ -121,14 +109,13 @@ export const ValuesQuestions = ({}) => {
           <Grid item lg={6} md={6} xs={6} mt={5}>
             <Box display="flex" justifyContent="flex-end">
               <Button
-                onSubmit={handleSubmit}
-                type="submit"
+                onClick={handleSubmit}
                 sx={{
                   background: "#00C9A7",
-                  pt: "3%",
-                  pb: "3%",
-                  pr: "8%",
-                  pl: "8%",
+                  pt: "5%",
+                  pb: "5%",
+                  pr: "10%",
+                  pl: "10%",
                 }}
                 variant="contained"
               >

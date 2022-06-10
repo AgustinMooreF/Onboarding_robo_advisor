@@ -1,14 +1,20 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:4000/";
-const register = (firstName, lastName, email, password, passwordConfirm) => {
+export const register = async (
+  firstName,
+  lastName,
+  email,
+  password,
+  passwordConfirm
+) => {
   try {
     const body = {
       firstName: firstName,
       lastName: lastName,
       email: email,
       password: password,
-      passwordConfirm, passwordConfirm
+      passwordConfirm: passwordConfirm,
     };
     const response = await axios.post(
       API_URL + "signup",
@@ -24,8 +30,4 @@ const register = (firstName, lastName, email, password, passwordConfirm) => {
   } catch (error) {
     return error;
   }
-};
-
-export default {
-  register,
 };

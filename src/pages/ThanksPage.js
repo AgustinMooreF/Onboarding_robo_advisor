@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Button, Grid, Box, Typography } from "@mui/material";
+import {  Grid, Box, Typography } from "@mui/material";
 import logo from "../assets/logos/blanco-verde_Mesa de trabajo 1.png";
 import image1 from "../assets/images/thanksSus.png";
 export const ThanksPageView = () => {
@@ -12,7 +11,6 @@ export const ThanksPageView = () => {
           xs={12}
           sx={{
             borderRadius: 3,
-            background: "red",
             height: "100%",
             background: "#12192c",
             width: "30vw",
